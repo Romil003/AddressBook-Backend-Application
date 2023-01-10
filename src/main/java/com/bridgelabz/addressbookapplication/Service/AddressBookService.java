@@ -54,5 +54,35 @@ public class AddressBookService implements IAddressBook{
         bookRepository.deleteById(Id);
     }
 
+    @Override
+    public List<AddressBook> findDataByCity(String city) {
+        List<AddressBook> addressBookList = bookRepository.findByCity(city);
+        return addressBookList;
+    }
+
+    @Override
+    public List<AddressBook> findDataByName(String fullName) {
+        List<AddressBook> addressBooklist2 = bookRepository.findByName(fullName);
+        return addressBooklist2;
+    }
+
+    @Override
+    public List<AddressBook> findDataByMobileNumber(String mobileNumber) {
+        List<AddressBook> addressBookList3 = bookRepository.findByMobileNumber(mobileNumber);
+        return addressBookList3;
+    }
+
+    @Override
+    public List<AddressBook> sortingByCity() {
+        List<AddressBook> addressBookList4 = bookRepository.sortByCity();
+        return addressBookList4;
+    }
+
+    @Override
+    public List<AddressBook> sortingByState() {
+        List<AddressBook> addressBookList5 = bookRepository.sortByState();
+        return addressBookList5;
+    }
+
 
 }

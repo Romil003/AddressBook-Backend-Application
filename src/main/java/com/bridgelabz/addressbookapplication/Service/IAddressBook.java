@@ -16,4 +16,15 @@ public interface IAddressBook {
 
     void deleteAddressBookData(int Id);
 
+    List<AddressBook> findDataByCity(String city);
+
+    List<AddressBook> findDataByName(String fullName);
+
+    List<AddressBook> findDataByMobileNumber(String mobileNumber);
+
+    List<AddressBook> sortingByCity();
+
+    List<AddressBook> sortingByState();
+
+
 }
