@@ -8,13 +8,13 @@ import java.util.List;
 public interface IAddressBook {
     List<AddressBook> getAddressBookDetails();
 
-    AddressBook getAddressBookDataById(int Id);
+    AddressBook getAddressBookDataById(String token);
 
-    AddressBook createAddressBookData(AddressBookDTO addressBookDTO);
+    String createAddressBookData(AddressBookDTO addressBookDTO);
 
-    AddressBook updateAddressBookData(int Id,AddressBookDTO addressBookDTO);
+    AddressBook updateAddressBookData(String token,AddressBookDTO addressBookDTO);
 
-    void deleteAddressBookData(int Id);
+    void deleteAddressBookData(String token);
 
     List<AddressBook> findDataByCity(String city);
 

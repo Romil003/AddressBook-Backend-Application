@@ -4,6 +4,7 @@ import com.bridgelabz.addressbookapplication.DTO.AddressBookDTO;
 import com.bridgelabz.addressbookapplication.Exception.AddressBookException;
 import com.bridgelabz.addressbookapplication.Model.AddressBook;
 import com.bridgelabz.addressbookapplication.Repository.BookRepository;
+import com.bridgelabz.addressbookapplication.Util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +15,30 @@ public class AddressBookService implements IAddressBook{
     @Autowired
     public BookRepository bookRepository;
 
+    @Autowired
+    private JwtToken jwtToken;
+
     @Override
     public List<AddressBook> getAddressBookDetails() {
         return bookRepository.findAll();
     }
 
     @Override
-    public AddressBook getAddressBookDataById(int Id) {
+    public AddressBook getAddressBookDataById(String token) {
+        int Id = jwtToken.decodeToken(token);
         return bookRepository.findById(Id).orElseThrow(() -> new AddressBookException("Data Not Found"));
     }
 
     @Override
-    public AddressBook createAddressBookData(AddressBookDTO addressBookDTO) {
+    public String createAddressBookData(AddressBookDTO addressBookDTO) {
         AddressBook addressBook = new AddressBook(addressBookDTO);
         bookRepository.save(addressBook);
-        return addressBook;
+        return jwtToken.encodeToken(addressBook.getId());
     }
 
     @Override
-    public AddressBook updateAddressBookData(int Id, AddressBookDTO addressBookDTO) {
-        AddressBook addressBook = this.getAddressBookDataById(Id);
+    public AddressBook updateAddressBookData(String token, AddressBookDTO addressBookDTO) {
+        AddressBook addressBook = this.getAddressBookDataById(token);
         if(addressBook != null){
             addressBook.setFullName(addressBookDTO.fullName);
             addressBook.setAddress(addressBookDTO.Address);
@@ -50,7 +55,8 @@ public class AddressBookService implements IAddressBook{
     }
 
     @Override
-    public void deleteAddressBookData(int Id) {
+    public void deleteAddressBookData(String token) {
+        int Id = jwtToken.decodeToken(token);
         bookRepository.deleteById(Id);
     }
 
