@@ -9,6 +9,8 @@ public class AppConfig {
 
     @Bean
     public JwtToken jwTtoken() {
+
         return new JwtToken();
     }
+
 }

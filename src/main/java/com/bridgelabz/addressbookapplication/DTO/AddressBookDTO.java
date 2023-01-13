@@ -1,7 +1,8 @@
 package com.bridgelabz.addressbookapplication.DTO;
 
-import jakarta.validation.constraints.*;
 import lombok.ToString;
+
+import javax.validation.constraints.*;
 
 @ToString
 public class AddressBookDTO {

@@ -4,6 +4,7 @@ import com.bridgelabz.addressbookapplication.DTO.AddressBookDTO;
 import com.bridgelabz.addressbookapplication.Exception.AddressBookException;
 import com.bridgelabz.addressbookapplication.Model.AddressBook;
 import com.bridgelabz.addressbookapplication.Repository.BookRepository;
+import com.bridgelabz.addressbookapplication.Util.EmailSenderService;
 import com.bridgelabz.addressbookapplication.Util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class AddressBookService implements IAddressBook{
 
     @Autowired
     private JwtToken jwtToken;
+
+    @Autowired
+    private EmailSenderService sender;
 
     @Override
     public List<AddressBook> getAddressBookDetails() {
@@ -33,6 +37,7 @@ public class AddressBookService implements IAddressBook{
     public String createAddressBookData(AddressBookDTO addressBookDTO) {
         AddressBook addressBook = new AddressBook(addressBookDTO);
         bookRepository.save(addressBook);
+        sender.sendEmail(addressBook.getEmailId(),"Test Email","Registered successfully,hii: "+addressBook.getFullName()+ " Registerd User Data->"+addressBook);
         return jwtToken.encodeToken(addressBook.getId());
     }
 
@@ -49,6 +54,7 @@ public class AddressBookService implements IAddressBook{
             addressBook.setCountry(addressBookDTO.country);
             addressBook.setPinCode(addressBookDTO.pinCode);
             bookRepository.save(addressBook);
+            sender.sendEmail(addressBook.getEmailId(),"Test Mail","Updated Data : "+addressBook+" Data Successfully updated !!!");
             return addressBook;
         }
         return null;
@@ -57,7 +63,9 @@ public class AddressBookService implements IAddressBook{
     @Override
     public void deleteAddressBookData(String token) {
         int Id = jwtToken.decodeToken(token);
+        AddressBook addressBook = this.getAddressBookDataById(token);
         bookRepository.deleteById(Id);
+        sender.sendEmail(addressBook.getEmailId(),"Test Mail","Deleting Data : "+addressBook+"Data deleted successfully!!!");
     }
 
     @Override

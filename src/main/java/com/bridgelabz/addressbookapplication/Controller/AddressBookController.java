@@ -4,12 +4,12 @@ import com.bridgelabz.addressbookapplication.DTO.AddressBookDTO;
 import com.bridgelabz.addressbookapplication.DTO.ResponseDTO;
 import com.bridgelabz.addressbookapplication.Model.AddressBook;
 import com.bridgelabz.addressbookapplication.Service.IAddressBook;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
